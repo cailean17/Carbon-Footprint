@@ -137,7 +137,7 @@ def callback():
         #unique_profile_pic_src =  User.get_user_profilepic(users_email)
         users_last_name = userinfo_response.json()["family_name"]
     #    print(unique_profile_pic_src)
-        return redirect(url_for("homepage"))
+        return render_template("index.html")
     else:
         return "User email not available or not verified by Google.", 400
 
