@@ -32,7 +32,7 @@ def load_user(user_id):
 
 
 # Set the app secret key from the secret environment variables.
-app.secret = os.environ.get('SECRET')
+app.secret = "asdasd123412423asd"#os.environ.get('SECRET')
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
