@@ -128,7 +128,7 @@ def callback():
     userinfo_response = requests.get(uri, headers=headers, data=body)
 
     if userinfo_response.json().get("email_verified"):
-        global unique_profile_pic_src
+        #global unique_profile_pic_src
 
         unique_id = userinfo_response.json()["sub"]
         users_email = userinfo_response.json()["email"]
@@ -136,7 +136,7 @@ def callback():
         users_name = userinfo_response.json()["given_name"]
         #unique_profile_pic_src =  User.get_user_profilepic(users_email)
         users_last_name = userinfo_response.json()["family_name"]
-        print(unique_profile_pic_src)
+    #    print(unique_profile_pic_src)
         return redirect(url_for("homepage"))
     else:
         return "User email not available or not verified by Google.", 400
