@@ -1,2 +1,9 @@
-Flask==1.1.1
-gunicorn==20.0.4
+Flask
+gunicorn
+Flask-Session
+psycopg2-binary
+SQLAlchemy
+Flask-Login
+requests
+oauthlib
+flask-bcrypt
