@@ -41,6 +41,31 @@
     </div>
   </nav>
 
+  <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Carbon Footprint</h1>
+    <p class="lead">A simple but staightforward website that unveils your unknowing contribution to climate change</p>
+  </div>
+</div>
+
+
+<div  id='map'  style='height:380px;'  />
+<link  rel="stylesheet"  href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"  />
+<script  src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+
+<script>
+    var  OSM_URL  =  'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var  OSM_ATTRIB  =  '&copy;  <a  href="http://openstreetmap.org/copyright">OpenStreetMap</a>  contributors';
+    var  osmLayer  =  L.tileLayer(OSM_URL,  {attribution:  OSM_ATTRIB});
+
+    var  WAQI_URL    =  "https://tiles.waqi.info/tiles/usepa-aqi/{z}/{x}/{y}.png?token=_TOKEN_ID_";
+    var  WAQI_ATTR  =  'Air  Quality  Tiles  &copy;  <a  href="http://waqi.info">waqi.info</a>';
+    var  waqiLayer  =  L.tileLayer(WAQI_URL,  {attribution:  WAQI_ATTR});
+
+    var  map  =  L.map('map').setView([51.505,  -0.09],  11);
+    map.addLayer(osmLayer).addLayer(waqiLayer);
+</script>
+
 
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
