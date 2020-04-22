@@ -8,3 +8,4 @@ requests
 oauthlib
 flask-bcrypt
 werkzeug==0.16.0
+static
