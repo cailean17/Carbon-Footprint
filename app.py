@@ -7,7 +7,7 @@ from oauthlib.oauth2 import WebApplicationClient
 import requests
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from static import login_required
+#from static import login_required
 
 #google oauth setup
 GOOGLE_CLIENT_ID = "968054636635-q424q4ptpbq7t05at4vokjkttg4cspnk.apps.googleusercontent.com"
