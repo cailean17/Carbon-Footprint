@@ -77,7 +77,7 @@ def login():
     try:
       if check_password_hash(listT[0]['password'], request.form.get("password")):
           session['user_id'] = listT[0]['id']
-          return redirect('/')
+          return redirect('index.html', username=username)
 
     except IndexError:
       flash('Wrong username', category='danger')
@@ -87,7 +87,8 @@ def login():
     return redirect('/login')
 
   else:
-    return render_template('register.html', username=username)
+    return render_template('register.html')
+
 
 
 #@app.route('/hi')

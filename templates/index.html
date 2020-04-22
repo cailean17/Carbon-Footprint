@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -62,7 +63,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </li>
-          <li class="nav-item" style = " margin-left:30px">
+          <li class="nav-item" style=" margin-left:30px">
             <a class="nav-link" href="#">{{username}}</a>
           </li>
         </ul>
@@ -91,22 +92,42 @@
       </div>
     </div>
 
-<div  id='map'  style='height:380px;'  />
-<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
+    <div id="map" style="height:550px;" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
 
-<script>
-      var  OSM_URL  =  'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-      var  OSM_ATTRIB  =  '&copy;  <a  href="http://openstreetmap.org/copyright">OpenStreetMap</a>  contributors';
-      var  osmLayer  =  L.tileLayer(OSM_URL,  {attribution:  OSM_ATTRIB});
+    <script>
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          console.log("Geolocation is not supported by this browser.");
+        }
 
-      var  WAQI_URL    =  "https://tiles.waqi.info/tiles/usepa-aqi/{z}/{x}/{y}.png?token=95370549d9b18fbcf53485ea8bf1b55987efeaa3";
-      var  WAQI_ATTR  =  'Air  Quality  Tiles  &copy;  <a  href="http://waqi.info">waqi.info</a>';
-      var  waqiLayer  =  L.tileLayer(WAQI_URL,  {attribution:  WAQI_ATTR});
+      function showPosition(position) {
+        console.log("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+        return [lat, long]
+      }
 
-      var  map  =  L.map('map').setView([51.505,  -0.09],  11);
+      var OSM_URL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      var OSM_ATTRIB =
+        '&copy;  <a  href="http://openstreetmap.org/copyright">OpenStreetMap</a>  contributors';
+      var osmLayer = L.tileLayer(OSM_URL, { attribution: OSM_ATTRIB });
+
+      var WAQI_URL =
+        "https://tiles.waqi.info/tiles/usepa-aqi/{z}/{x}/{y}.png?token=95370549d9b18fbcf53485ea8bf1b55987efeaa3";
+      var WAQI_ATTR =
+        'Air  Quality  Tiles  &copy;  <a  href="http://waqi.info">waqi.info</a>';
+      var waqiLayer = L.tileLayer(WAQI_URL, { attribution: WAQI_ATTR });
+
+      map = L.map('map', {doubleClickZoom: false}).locate({setView: true, maxZoom: 16});
+
       map.addLayer(osmLayer).addLayer(waqiLayer);
-</script>
+    </script>
   </body>
   <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
