@@ -1,20 +1,7 @@
-<html>
-<head>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Oswald"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="/public/style.css"
-    />
-</head>
+
+{% extends "layout.html" %} {% block title %} Register {% endblock %} {% block
+main %}
+<h1>Register</h1>
 <!--Original form: https://codepen.io/vikasverma93/pen/zplmq-->
 <div class="login-box">
   <div class="lb-header">
@@ -22,14 +9,16 @@
     <a href="#" id="signup-box-link">Sign Up</a>
   </div>
   <div class="social-login">
-    <a href="/google">
-      <i class="fa fa-google-plus fa-lg"></i>
-      log in with Google
-    </a>
+
+      <a href="/google"  style = " margin-left:150px">
+        <i class="fa fa-google-plus fa-lg"></i>
+        log in with Google
+      </a>
+
   </div>
-  <form class="email-login" action="/register">
+  <form class="email-login" action="/login" method="POST">
     <div class="u-form-group">
-      <input type="email" placeholder="Email" name="email" required />
+      <input type="string" placeholder="Username" name="username" required />
     </div>
     <div class="u-form-group">
       <input type="password" placeholder="Password" name="password" required />
@@ -46,7 +35,10 @@
   <br />
   <br />
   <br />
-  <form class="email-signup" action="/login">
+  <form class="email-signup" action="/register" method="POST">
+    <div class="u-form-group">
+      <input type="text" placeholder="username" name="username" />
+    </div>
     <div class="u-form-group">
       <input type="email" placeholder="Email" name="email" />
     </div>
@@ -62,22 +54,10 @@
   </form>
 </div>
 <br />
-
+<small
+  >Original form designed by vikasverma93, see this project on
+  <a href="https://codepen.io/vikasverma93/pen/zplmq">codepen</a>. License under
+  MIT.</small
+>
 <script src="/public/client.js"></script>
-<script
-src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-  crossorigin="anonymous"
-></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-</html>
+{% endblock %}
