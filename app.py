@@ -89,10 +89,10 @@ def login():
     return render_template('register.html')
 
 
-@app.route('/hi')
-@login_required
-def hi():
-  pass
+#@app.route('/hi')
+#@login_required
+#def hi():
+ # pass
 
 @app.route("/logout")
 def logout():
