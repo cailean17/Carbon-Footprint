@@ -1,31 +1,31 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} 
 
-{% block title %}
-  Activites
-{% endblock %}
+{% block title %} 
+  Activites  
+{% endblock %} 
 
 {% block main %}
   <h1>Actvities</h1>
   <p>Fill out this simple form to find out how much carbon you have emitted. Feel free to skip certain quesitons.</p>
   <form action="/activities" method="POST">
     <!--https://medium.com/@anasbaig/everyday-activities-that-cause-air-pollution-5ed490625635-->
-
+    
     <!--Question 1-->
     <label>Did you drive a car today? If so, for how long?</label>
     <input type="number" name="car-hours" placeholder="# of hours"> hour(s) / <input type="number" name="car-mile"> mph.<br>
-
+  
     <!--Question 2-->
     <label>Did you burn any wood-consuming stoves today? If so:</label>
     <input type="number" name="wood-hours" placeholder="# of hours"> hour(s) <br>
-
+  
     <!--Question 3-->
     <label>Did you use any gas stoves today? If so: </label>
     <input type="number" name="gas-hours" placeholder="# of hours"> kilowatt hour(s). <br>
-
+    
     <!--Question 4-->
     <label>Did you throw any trash to landfills? If so:</label>
-    <input type="number" name="trash-pounds" placeholder="# of lbs"> Pound(s).
-
+    <input type="number" name="trash-pounds" placeholder="# of lbs"> Pound(s). 
+    
     <button type="submit">Submit</button>
   </form>
 {% endblock %}
