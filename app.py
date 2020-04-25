@@ -1,5 +1,8 @@
+
 import os
-import json
+import datetime
+import time
+
 from flask import Flask, request, render_template, jsonify, redirect, flash, url_for, session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -8,7 +11,7 @@ from oauthlib.oauth2 import WebApplicationClient
 import requests
 from werkzeug.security import check_password_hash, generate_password_hash
 
-#from static import login_required
+from static import login_required
 
 #google oauth setup
 GOOGLE_CLIENT_ID = "968054636635-q424q4ptpbq7t05at4vokjkttg4cspnk.apps.googleusercontent.com"
@@ -49,6 +52,15 @@ def register():
     password = request.form.get('password')
     confirm = request.form.get('confirm')
 
+    result = s.execute("SELECT * FROM users WHERE email = :email LIMIT 1", {'email': str(email)})
+    listT = []
+    for row in result:
+        row_as_dict = dict(row)
+        listT.append(row_as_dict)
+
+    if len(listT) != 0:
+      flash("Already registered")
+      return redirect('/register')
 
     if password != confirm:
       flash('Please double check your password', 'danger')
@@ -75,9 +87,12 @@ def login():
         listT.append(row_as_dict)
 
     try:
+      if listT[0]["password"] == 'Google':
+        return redirect('/google')
+
       if check_password_hash(listT[0]['password'], request.form.get("password")):
           session['user_id'] = listT[0]['id']
-          return redirect('index.html', username=username)
+          return render_template('activities.html', username=username)
 
     except IndexError:
       flash('Wrong username', category='danger')
@@ -90,11 +105,6 @@ def login():
     return render_template('register.html')
 
 
-
-#@app.route('/hi')
-#@login_required
-#def hi():
- # pass
 
 @app.route("/logout")
 def logout():
@@ -153,37 +163,68 @@ def callback():
     userinfo_response = requests.get(uri, headers=headers, data=body)
 
     if userinfo_response.json().get("email_verified"):
-        #global unique_profile_pic_src
+        global unique_profile_pic_src
 
         unique_id = userinfo_response.json()["sub"]
         users_email = userinfo_response.json()["email"]
         picture = userinfo_response.json()["picture"]
         users_name = userinfo_response.json()["given_name"]
-        #unique_profile_pic_src =  User.get_user_profilepic(users_email)
+        unique_profile_pic_src =  User.get_user_profilepic(users_email)
         users_last_name = userinfo_response.json()["family_name"]
-    #    print(unique_profile_pic_src)
-        return redirect(url_for("homepage"))
+        # print(unique_profile_pic_src)
+        result = s.execute("SELECT * FROM users WHERE email = :email LIMIT 1", {'email': str(users_email)})
+
+        listT = []
+        for row in result:
+            row_as_dict = dict(row)
+            listT.append(row_as_dict)
+
+        if len(listT) != 0:
+          flash("Already registered")
+          return redirect('/register')
+
+        s.execute("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)", {"username": users_name, "password": "Google", "email": users_email})
+        s.commit()
+        return redirect(url_for("register"))
+
     else:
         return "User email not available or not verified by Google.", 400
 
-#@app.route('/register', methods = ['POST', "GET"])
-#def registration_page():
-   # form = RegistrationForm()
-    #if form.validate_on_submit():
-      #  username = form.username.data
-       # password = form.password.data
 
-        #user_object = Users.query.filter_by(username=username).first()
-        #if user_object:
-           # return "Someone has this username!"
+@app.route('/activities', methods=['GET', 'POST'])
+@login_required
+def activites():
 
-        #user = Users(username=username, password=password)
-        #db.session.add(user)
-        #db.session.commit()
+  # Featured snippet from the web In an ordinary trip with minimal traffic, you're likely to emit around 0.7 pounds of carbon dioxide per mile traveled. If your average speed drops to 15 miles per hour, that emissions amount rises to 1.2 pounds. ... Congestion was heavy, with more than half the cars traveling less than 25 miles per hour
+  # The U.S. Environmental Protection Agency just released rules limiting particulate emissions of wood stoves sold after January 1, 2016 to 4.5 grams per hour, or three to ten times less than the 15 to 40 grams per hour that an older stove emits.
+  # 66 grams of Co2 emitted per kilowatt hour for ... an oven and a gas stove
+  # 40lbs co2 per lbs landfills
 
-    #return render_template('registration.html', form=form)
+  if request.method == 'POST':
+    ts = time.time()
+    car_pollution = float(request.form.get("car-hours")) * float(request.form.get("car-mile")) * 0.7 * 454 # grams
+    wood_pollution = float(request.form.get('wood-hours')) * 4.5 # grams
+    gas_pollution = float(request.form.get("gas-hours")) * 66 # grams
+    trash_pollution = float(request.form.get("trash-pounds")) * 40 * 454 # grams
 
-   # return render_template('registration.html', form=form)
+    total = car_pollution + wood_pollution + gas_pollution + trash_pollution
+    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    info = {'timestamp': str(timestamp), 'description': 'Car Pollution: {}g <br>Wood Pollution: {}g <br>Gas Pollution: {}g <br>Trash pollution: {}g'.format(car_pollution, wood_pollution, gas_pollution, trash_pollution), 'user_id': session.get('user_id'), 'total_carbon': total}
+    s.execute('INSERT INTO logs (timestamp, description, user_id, total_carbon) VALUES (:timestamp, :description, :user_id, :total_carbon)', info)
+    s.commit()
+
+    return render_template("activity-complete.html", description=info["description"], total=total)
+
+  else:
+
+    return render_template('activities.html')
+
+@app.route('/logs')
+@login_required
+def logs():
+
+  results = s.execute("SELECT * FROM logs WHERE user_id = :user_id", {"user_id": session.get('user_id')})
+  return render_template('logs.html', results=results)
 
 if __name__ == '__main__':
     app.run(debug='True')
