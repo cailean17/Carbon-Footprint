@@ -169,7 +169,7 @@ def callback():
         users_email = userinfo_response.json()["email"]
         picture = userinfo_response.json()["picture"]
         users_name = userinfo_response.json()["given_name"]
-    
+
         users_last_name = userinfo_response.json()["family_name"]
         return redirect(url_for("activities"))
         # print(unique_profile_pic_src)
@@ -194,7 +194,7 @@ def callback():
 
 @app.route('/activities', methods=['GET', 'POST'])
 @login_required
-def activites():
+def activities():
 
   # Featured snippet from the web In an ordinary trip with minimal traffic, you're likely to emit around 0.7 pounds of carbon dioxide per mile traveled. If your average speed drops to 15 miles per hour, that emissions amount rises to 1.2 pounds. ... Congestion was heavy, with more than half the cars traveling less than 25 miles per hour
   # The U.S. Environmental Protection Agency just released rules limiting particulate emissions of wood stoves sold after January 1, 2016 to 4.5 grams per hour, or three to ten times less than the 15 to 40 grams per hour that an older stove emits.
