@@ -171,6 +171,7 @@ def callback():
         users_name = userinfo_response.json()["given_name"]
         unique_profile_pic_src =  User.get_user_profilepic(users_email)
         users_last_name = userinfo_response.json()["family_name"]
+        return redirect(url_for("activities"))
         # print(unique_profile_pic_src)
         result = s.execute("SELECT * FROM users WHERE email = :email LIMIT 1", {'email': str(users_email)})
 
