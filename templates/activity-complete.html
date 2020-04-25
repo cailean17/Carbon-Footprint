@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Log Added
+{% endblock %}
+
+{% block main %}
+  <div class="jumbotron">
+    <h1 class="display-4">Activity Completed</h1>
+    <p class="lead">{{ description|safe }}</p>
+    <b>Total Carbon: {{ total }}</b>
+  </div>
+  <img alt="GIF Conclusion" class="border" src="http://memegen.link/custom/You%20Contributed/{{ total }}%20grams%20of%20CO2.jpg?alt=https://imgflip.com/i/3y18yd" title="co2">
+{% endblock %}
