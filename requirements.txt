@@ -7,4 +7,5 @@ Flask-Login
 requests
 oauthlib
 flask-bcrypt
-flask-sqlalchemy
+werkzeug==0.16.0
+static
