@@ -7,4 +7,4 @@ Flask-Login
 requests
 oauthlib
 flask-bcrypt
-werkzeug==0.16.0
+werkzeug==2.2.3
